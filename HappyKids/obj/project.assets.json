@@ -10420,10 +10420,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\mac\\home\\documents\\visual studio 2017\\Projects\\HappyKids\\HappyKids\\HappyKids.csproj",
+      "projectUniqueName": "\\\\Mac\\Home\\Documents\\Visual Studio 2017\\Projects\\HappyKids\\HappyKids\\HappyKids.csproj",
       "projectName": "HappyKids",
-      "projectPath": "\\\\mac\\home\\documents\\visual studio 2017\\Projects\\HappyKids\\HappyKids\\HappyKids.csproj",
-      "outputPath": "\\\\mac\\home\\documents\\visual studio 2017\\Projects\\HappyKids\\HappyKids\\obj\\",
+      "projectPath": "\\\\Mac\\Home\\Documents\\Visual Studio 2017\\Projects\\HappyKids\\HappyKids\\HappyKids.csproj",
+      "outputPath": "\\\\Mac\\Home\\Documents\\Visual Studio 2017\\Projects\\HappyKids\\HappyKids\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
@@ -10431,8 +10431,8 @@
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {
-            "\\\\mac\\home\\documents\\visual studio 2017\\Projects\\HappyKids\\MongoIdentity\\MongoIdentity.csproj": {
-              "projectPath": "\\\\mac\\home\\documents\\visual studio 2017\\Projects\\HappyKids\\MongoIdentity\\MongoIdentity.csproj"
+            "\\\\Mac\\Home\\Documents\\Visual Studio 2017\\Projects\\HappyKids\\MongoIdentity\\MongoIdentity.csproj": {
+              "projectPath": "\\\\Mac\\Home\\Documents\\Visual Studio 2017\\Projects\\HappyKids\\MongoIdentity\\MongoIdentity.csproj"
             }
           }
         }

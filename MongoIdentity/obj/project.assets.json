@@ -8218,10 +8218,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "\\\\mac\\home\\documents\\visual studio 2017\\Projects\\HappyKids\\MongoIdentity\\MongoIdentity.csproj",
+      "projectUniqueName": "\\\\Mac\\Home\\Documents\\Visual Studio 2017\\Projects\\HappyKids\\MongoIdentity\\MongoIdentity.csproj",
       "projectName": "MongoIdentity",
-      "projectPath": "\\\\mac\\home\\documents\\visual studio 2017\\Projects\\HappyKids\\MongoIdentity\\MongoIdentity.csproj",
-      "outputPath": "\\\\mac\\home\\documents\\visual studio 2017\\Projects\\HappyKids\\MongoIdentity\\obj\\",
+      "projectPath": "\\\\Mac\\Home\\Documents\\Visual Studio 2017\\Projects\\HappyKids\\MongoIdentity\\MongoIdentity.csproj",
+      "outputPath": "\\\\Mac\\Home\\Documents\\Visual Studio 2017\\Projects\\HappyKids\\MongoIdentity\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"

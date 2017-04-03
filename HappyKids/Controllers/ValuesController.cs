@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using HappyKids.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,12 @@ namespace HappyKids.Controllers
         private readonly IPasswordHasher<MongoIdentityUser> _hasher;
         private readonly IConfigurationRoot _config;
 
+
+        //public ValuesController()
+        //{
+            
+        //}
+
         public ValuesController(
             UserManager<MongoIdentityUser> userManager,
             SignInManager<MongoIdentityUser> signInManager,
@@ -41,21 +48,25 @@ namespace HappyKids.Controllers
             _config = config;
         }
         // GET api/values
+
+
+              
         [HttpGet]
-        public IEnumerable<string> Get()
+        //[Authorize]
+        public IEnumerable<string> GetAll()
         {
-            var identity = (ClaimsIdentity)User.Identity;
-            IEnumerable<Claim> claims = identity.Claims;
-            var name = claims.Where(c => c.Type == "NAME")
-                   .Select(c => c.Value).SingleOrDefault();
-            //var user = _userManager.FindByIdAsync(a.)
+            //var identity = (ClaimsIdentity)User.Identity;
+            //IEnumerable<Claim> claims = identity.Claims;
+            //var name = claims.Where(c => c.Type == "NAME")
+            //       .Select(c => c.Value).SingleOrDefault();
+            //var user = _userManager.FindByIdAsync(a.)        
             return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
-        {
+           {
             return "value";
         }
 

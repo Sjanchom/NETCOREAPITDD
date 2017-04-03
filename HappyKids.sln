@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyKids", "HappyKids\Happ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoIdentity", "MongoIdentity\MongoIdentity.csproj", "{91249946-EDA7-4BFC-BD32-979BF632A356}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyKids.Test", "HappyKids.Test\HappyKids.Test.csproj", "{C6603142-069C-423E-8292-175544D38164}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyKids.Test", "HappyKids.Test\HappyKids.Test.csproj", "{AC416DE5-5AEC-48CE-BC21-AA0DF0175452}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{91249946-EDA7-4BFC-BD32-979BF632A356}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91249946-EDA7-4BFC-BD32-979BF632A356}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91249946-EDA7-4BFC-BD32-979BF632A356}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6603142-069C-423E-8292-175544D38164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6603142-069C-423E-8292-175544D38164}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6603142-069C-423E-8292-175544D38164}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6603142-069C-423E-8292-175544D38164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC416DE5-5AEC-48CE-BC21-AA0DF0175452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC416DE5-5AEC-48CE-BC21-AA0DF0175452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC416DE5-5AEC-48CE-BC21-AA0DF0175452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC416DE5-5AEC-48CE-BC21-AA0DF0175452}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

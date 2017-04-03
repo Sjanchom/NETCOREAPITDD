@@ -188,7 +188,7 @@ namespace HappyKids
                 options.Tokens.ProviderMap[providerName] = new TokenProviderDescriptor(provider);
             });
 
-            services.AddSingleton(provider);
+            services.AddSingleton(provider);         
         }
 
 
