@@ -1,0 +1,7 @@
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.deps.json
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.csprojResolveAssemblyReference.cache
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.AssemblyInfo.cs
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.dll
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.pdb

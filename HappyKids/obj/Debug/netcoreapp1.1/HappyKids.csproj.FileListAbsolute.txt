@@ -1,0 +1,11 @@
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.deps.json
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.runtimeconfig.json
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.runtimeconfig.dev.json
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.dll
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.csprojResolveAssemblyReference.cache
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.AssemblyInfo.cs
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\HappyKids\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+\\mac\home\documents\visual studio 2017\Projects\HappyKids\HappyKids\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.pdb
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.dll
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.pdb
