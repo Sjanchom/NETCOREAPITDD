@@ -10,8 +10,8 @@ namespace HappyKids.Test.Controllers
 {
     public class PostControllerTest
     {
-        private List<Student> _randomStudent;
-        IUnitOfWork _unitOfWork;
+        private readonly List<Student> _randomStudent;
+        private readonly IUnitOfWork _unitOfWork;
 
 
         public PostControllerTest()
@@ -34,6 +34,9 @@ namespace HappyKids.Test.Controllers
         {
             var repository = new Mock<IStudentRepository>();
             repository.Setup(x => x.GetAllStudents()).Returns(_randomStudent);
+            repository.Setup(p => p.GetStudentById(It.IsAny<string>()))
+               .Returns(new Func<string, Student>(
+                            id => _randomStudent.Find(p => p.Id.Equals(id))));
 
             return repository.Object;
         }
@@ -49,9 +52,6 @@ namespace HappyKids.Test.Controllers
             return _students;
         }
 
-//        actionResult = valuesController.Get(12);
-//OkNegotiatedContentResult<string> conNegResult = Assert.IsType<OkNegotiatedContentResult<string>>(actionResult);
-//        Assert.Equal("data: 12", conNegResult.Content);
 
         [Fact]
         public void ShouldNotNull()
@@ -75,7 +75,26 @@ namespace HappyKids.Test.Controllers
 
         }
 
+        [Fact]
+        public void ShouldReturnCorrectId()
+        {
+            var controller = new StudentsController(_unitOfWork);
+            var result = controller.GetById("1");
 
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnObject = Assert.IsType<StudentDTO>(okResult.Value);
+
+            Assert.Equal("1", returnObject.Id);
+        }
+
+
+
+    }
+
+    public class StudentDTO
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 
     public interface IUnitOfWork
@@ -86,6 +105,7 @@ namespace HappyKids.Test.Controllers
     public interface IStudentRepository
     {
         IEnumerable<Student> GetAllStudents();
+        Student GetStudentById(string id);
     }
 
     public class Student
@@ -126,6 +146,16 @@ namespace HappyKids.Test.Controllers
         {
             var listOfPost = _unitOfWork.StudentRepository.GetAllStudents(); 
             return Ok(listOfPost);
+        }
+
+        public IActionResult GetById(string id)
+        {
+            var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
+            var mapToDto = new StudentDTO();
+            mapToDto.Id = selectedStudent.Id;
+            mapToDto.Name = selectedStudent.Name;
+
+            return Ok(mapToDto);
         }
     }
 }
