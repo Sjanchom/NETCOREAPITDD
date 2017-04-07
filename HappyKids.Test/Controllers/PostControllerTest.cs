@@ -45,11 +45,21 @@ namespace HappyKids.Test.Controllers
             repository.Setup(x => x.CreateStudent(It.IsAny<Student>()))
                 .Callback(new Action<Student>(newStudent =>
                 {
-                    dynamic maxProductID = _randomStudent.Last().Id;
-                    dynamic nextProductID = Convert.ToInt32(maxProductID) + 1;
-                    newStudent.Id = nextProductID.ToString();
+                    dynamic maxProductId = _randomStudent.Last().Id;
+                    dynamic nextProductId = Convert.ToInt32(maxProductId) + 1;
+                    newStudent.Id = nextProductId.ToString();
                     _randomStudent.Add(newStudent);
                 }));
+
+            repository.Setup(x => x.RemoveStudent(It.IsAny<String>()))
+              .Callback(new Action<String>(id =>
+                {
+                    _randomStudent.Single(x => x.Id == id).IsActived = 0;
+                }));
+
+            repository.Setup(x => x.IsStudentExist(It.IsAny<String>()))
+                .Returns(new Func<string, bool>(
+                    id => _randomStudent.Any(x => x.Id == id)));
 
             return repository.Object;
         }
@@ -70,18 +80,18 @@ namespace HappyKids.Test.Controllers
         public void ShouldNotNull()
         {
             var controller = new StudentsController(_unitOfWork);
-            var result = controller.GetAllPost();
+            var sut = controller.GetAllPost();
 
-            Assert.NotNull(result);
+            Assert.NotNull(sut);
         }
 
         [Fact]
         public void ShouldReturnAllList()
         {
             var controller = new StudentsController(_unitOfWork);
-            var result = controller.GetAllPost();
+            var sut = controller.GetAllPost();
 
-            var okResult = Assert.IsType<OkObjectResult>(result);
+            var okResult = Assert.IsType<OkObjectResult>(sut);
             var returnObject = Assert.IsType<List<Student>>(okResult.Value);
 
             Assert.Equal(5, returnObject.Count);
@@ -91,9 +101,9 @@ namespace HappyKids.Test.Controllers
         public void ShouldReturnCorrectId()
         {
             var controller = new StudentsController(_unitOfWork);
-            var result = controller.GetById("1");
+            var sut = controller.GetById("1");
 
-            var okResult = Assert.IsType<OkObjectResult>(result);
+            var okResult = Assert.IsType<OkObjectResult>(sut);
             var returnObject = Assert.IsType<StudentDTO>(okResult.Value);
 
             Assert.Equal("1", returnObject.Id);
@@ -120,12 +130,12 @@ namespace HappyKids.Test.Controllers
                 BirthDate = UtilHelper.PareDateTime("15/02/2015")
             };
 
-            var result = controller.CreateStudent(student);
+            var sut = controller.CreateStudent(student);
             var maxProductIdBeforeAdd = _randomStudent.Max(a => Convert.ToInt32(a.Id));
             student.Id = (maxProductIdBeforeAdd + 1).ToString();
 
 
-            var createAtRouteResult = Assert.IsType<CreatedAtRouteResult>(result);
+            var createAtRouteResult = Assert.IsType<CreatedAtRouteResult>(sut);
             var returnObject = Assert.IsType<StudentDTO>(createAtRouteResult.Value);
 
             Assert.Equal(student.Id, returnObject.Id);
@@ -138,9 +148,9 @@ namespace HappyKids.Test.Controllers
         {
             var controller = new StudentsController(_unitOfWork);
 
-            var result = controller.CreateStudent(null);
+            var sut = controller.CreateStudent(null);
 
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestResult>(sut);
         }
 
         [Fact]
@@ -150,10 +160,48 @@ namespace HappyKids.Test.Controllers
             controller.ModelState.AddModelError("error", "some error");
             var emptyStudentDto = new StudentDTO {Name = null};
 
-            var result = controller.CreateStudent(emptyStudentDto);
+            var sut = controller.CreateStudent(emptyStudentDto);
 
-            var badResult = Assert.IsType<BadRequestObjectResult>(result);
+            var badResult = Assert.IsType<BadRequestObjectResult>(sut);
             Assert.Equal(emptyStudentDto, badResult.Value);
+        }
+
+
+        [Fact]
+        public void ShouldReturnNoContentWhenDeleteSuccess()
+        {
+            var controller = new StudentsController(_unitOfWork);
+
+            var sut = controller.DeleteStudent("1");
+
+            Assert.IsType<NoContentResult>(sut);
+
+            Assert.Equal(0,_randomStudent.Single(x => x.Id == "1").IsActived);
+        }
+
+       
+        //[Fact]
+        //public void ShouldThrowExceptionWhenDeleteError()
+        //{
+        //    var controller = new StudentsController(_unitOfWork);
+
+        //    var exception = Record.Exception(() => controller.DeleteStudent("sd1;;ll"));
+
+        //    Assert.NotNull(exception);
+        //    Assert.IsType<Exception>(exception);
+        //    Assert.True(exception.Message.Contains("Cannot Delete Student ID:sd1;;ll"));
+
+        //}
+
+        [Fact]
+        public void ShouldReturnNotFoundWhenStudentNotExist()
+        {
+            var controller = new StudentsController(_unitOfWork);
+
+            var sut = controller.DeleteStudent("222");
+
+            var notFoundResult = Assert.IsType<NotFoundObjectResult>(sut);
+            Assert.Equal("222", notFoundResult.Value);
         }
 
         [Fact]
@@ -196,6 +244,8 @@ namespace HappyKids.Test.Controllers
         IEnumerable<Student> GetAllStudents();
         Student GetStudentById(string id);
         void CreateStudent(Student student);
+        void RemoveStudent(string studentId);
+        bool IsStudentExist(string studentId);
     }
 
     public class Student
@@ -206,6 +256,7 @@ namespace HappyKids.Test.Controllers
         public string Name { get; set; }
         public DateTime? BirthDate { get; set; }
         public ICollection<DairyReport> DairyReports { get; set; }
+        public int IsActived { get; set; } = 1;
     }
 
     public class DairyReport
@@ -279,6 +330,23 @@ namespace HappyKids.Test.Controllers
             var studentReturn = AutoMapper.Mapper.Map<StudentDTO>(studentMap);
 
             return CreatedAtRoute("GetBookById", new {id = studentReturn.Id}, student);
+        }
+
+        public IActionResult DeleteStudent(string studentId)
+        {
+            if (!_unitOfWork.StudentRepository.IsStudentExist(studentId))
+            {
+                return NotFound(studentId);
+            }
+            try
+            {
+                _unitOfWork.StudentRepository.RemoveStudent(studentId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Cannot Delete Student ID:{studentId}");
+            }
+            return NoContent();
         }
     }
 }
