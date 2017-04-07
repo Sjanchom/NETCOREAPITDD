@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using HappyKids.Test.Helper;
 using Microsoft.AspNetCore.Http;
@@ -55,13 +56,13 @@ namespace HappyKids.Test.Controllers
 
         private static List<Student> SetupStudents()
         {
-            int _counter = new int();
-            List<Student> _students = DataInitializer.GetAllProducts();
+            int counter = new int();
+            List<Student> students = DataInitializer.GetAllProducts();
 
-            foreach (Student _student in _students)
-                _student.Id = (++_counter).ToString();
+            foreach (Student student in students)
+                student.Id = (++counter).ToString();
 
-            return _students;
+            return students;
         }
 
 
@@ -115,12 +116,13 @@ namespace HappyKids.Test.Controllers
 
             var student = new StudentDTO()
             {
-                Name = "Create Student"
+                Name = "Create Student",
+                BirthDate = UtilHelper.PareDateTime("15/02/2015")
             };
 
             var result = controller.CreateStudent(student);
-            var maxProductIDBeforeAdd = _randomStudent.Max(a => Convert.ToInt32(a.Id));
-            student.Id = (maxProductIDBeforeAdd + 1).ToString();
+            var maxProductIdBeforeAdd = _randomStudent.Max(a => Convert.ToInt32(a.Id));
+            student.Id = (maxProductIdBeforeAdd + 1).ToString();
 
 
             var createAtRouteResult = Assert.IsType<CreatedAtRouteResult>(result);
@@ -128,6 +130,7 @@ namespace HappyKids.Test.Controllers
 
             Assert.Equal(student.Id, returnObject.Id);
             Assert.Equal(returnObject.Name,_randomStudent.Last().Name);
+            Assert.Equal(student.BirthDate,returnObject.BirthDate);
         }
 
         [Fact]
@@ -170,14 +173,17 @@ namespace HappyKids.Test.Controllers
         }
     }
 
+    // ReSharper disable once InconsistentNaming
     public class StudentDTO
     {
         public string Id { get; set; }
 
         [Required(ErrorMessage = "You should fill out a Name.")]
-        [MinLength(10, ErrorMessage = "The description shouldn't have more than 500 characters.")]
-        [MaxLength(500, ErrorMessage = "The description shouldn't have more than 500 characters.")]
+        [MinLength(5, ErrorMessage = "The description shouldn't have more than 500 characters.")]
         public string Name { get; set; }
+
+        [Required]
+        public DateTime BirthDate { get; set; }
     }
 
     public interface IUnitOfWork

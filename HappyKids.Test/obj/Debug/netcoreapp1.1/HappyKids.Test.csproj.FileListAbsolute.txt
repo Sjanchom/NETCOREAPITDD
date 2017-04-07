@@ -14,22 +14,6 @@ V:\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netc
 V:\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.AssemblyInfo.cs
 V:\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.dll
 V:\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.pdb
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.utility.netstandard15.dll
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.reporters.netstandard15.dll
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.deps.json
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.runtimeconfig.json
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.runtimeconfig.dev.json
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.dll
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.pdb
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.dll
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\MongoIdentity.dll
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.pdb
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.csprojResolveAssemblyReference.cache
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.AssemblyInfo.cs
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.dll
-\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.pdb
 \\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 \\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.utility.netstandard15.dll
 \\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.reporters.netstandard15.dll
@@ -78,3 +62,19 @@ W:\Desktop\git\NETCOREAPITDD\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.dl
 W:\Desktop\git\NETCOREAPITDD\HappyKids.Test\bin\Debug\netcoreapp1.1\MongoIdentity.dll
 W:\Desktop\git\NETCOREAPITDD\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.pdb
 W:\Desktop\git\NETCOREAPITDD\HappyKids.Test\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.utility.netstandard15.dll
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\xunit.runner.reporters.netstandard15.dll
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.deps.json
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.runtimeconfig.json
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.runtimeconfig.dev.json
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.dll
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.Test.pdb
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.dll
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\HappyKids.pdb
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.AssemblyInfo.cs
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.dll
+\\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids.Test\obj\Debug\netcoreapp1.1\HappyKids.Test.pdb
