@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using HappyKids.Test.Helper;
 using Microsoft.AspNetCore.Http;
@@ -130,6 +131,29 @@ namespace HappyKids.Test.Controllers
         }
 
         [Fact]
+        public void CreateShouldReturnNonFoundWhenReceiveNull()
+        {
+            var controller = new StudentsController(_unitOfWork);
+
+            var result = controller.CreateStudent(null);
+
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public void CreateShouldReturnBadRequestWhenNameIsNullOrEmpty()
+        {
+            var controller = new StudentsController(_unitOfWork);
+            controller.ModelState.AddModelError("error", "some error");
+            var emptyStudentDto = new StudentDTO {Name = null};
+
+            var result = controller.CreateStudent(emptyStudentDto);
+
+            var badResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(emptyStudentDto, badResult.Value);
+        }
+
+        [Fact]
         public void ShouldHaveUpdateMethod()
         {
             var controller = new StudentsController(_unitOfWork);
@@ -149,6 +173,10 @@ namespace HappyKids.Test.Controllers
     public class StudentDTO
     {
         public string Id { get; set; }
+
+        [Required(ErrorMessage = "You should fill out a Name.")]
+        [MinLength(10, ErrorMessage = "The description shouldn't have more than 500 characters.")]
+        [MaxLength(500, ErrorMessage = "The description shouldn't have more than 500 characters.")]
         public string Name { get; set; }
     }
 
@@ -203,7 +231,7 @@ namespace HappyKids.Test.Controllers
             return Ok(listOfPost);
         }
 
-
+        [HttpGet(Name = "GetBookById")]
         public IActionResult GetById(string id)
         {
             var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
@@ -223,8 +251,21 @@ namespace HappyKids.Test.Controllers
             return null;
         }
 
-        public IActionResult CreateStudent(StudentDTO student)
+
+        [HttpPost]
+        public IActionResult CreateStudent([FromBody]StudentDTO student)
         {
+
+            if (student == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(student);
+            }
+
             var studentMap = AutoMapper.Mapper.Map<Student>(student);
 
             _unitOfWork.StudentRepository.CreateStudent(studentMap);
