@@ -205,18 +205,32 @@ namespace HappyKids.Test.Controllers
         }
 
         [Fact]
-        public void ShouldHaveUpdateMethod()
+        public void ShouldReturnNoContentWhenUpdateSuccess()
         {
             var controller = new StudentsController(_unitOfWork);
             var student = new StudentDTO();
             student.Id = "1";
             student.Name = "UpdateName";
 
-            var result = controller.UpdateStudent(student);
+            var sut = controller.UpdateStudent(student);
+            Assert.IsType<NoContentResult>(sut);
         }
 
         [Fact]
-        public void WhenIdNotExistinCollectionShouldreturnNotFound()
+        public void OtherValueShouldNullWhenUseHttpPut()
+        {
+            var controller = new StudentsController(_unitOfWork);
+            var student = new StudentDTO();
+            student.Id = "1";
+            student.Name = "UpdateName";
+
+            var sut = controller.UpdateStudent(student);
+            Assert.IsType<NoContentResult>(sut);
+            //Assert.Equal();
+        }
+
+        [Fact]
+        public void ShouldreturnNotFoundWhenIdNotExistinCollection()
         {
         }
     }
@@ -305,7 +319,7 @@ namespace HappyKids.Test.Controllers
 
         public object UpdateStudent(StudentDTO student)
         {
-            return null;
+            return NoContent();
         }
 
 
