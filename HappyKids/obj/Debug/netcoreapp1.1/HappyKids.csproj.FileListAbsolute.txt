@@ -31,3 +31,36 @@ V:\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids\obj\Debug\netcoreap
 \\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.AssemblyInfo.cs
 \\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.dll
 \\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.pdb
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.deps.json
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.runtimeconfig.json
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.runtimeconfig.dev.json
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.dll
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.pdb
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.csprojResolveAssemblyReference.cache
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.AssemblyInfo.cs
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.dll
+\\Mac\Home\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.pdb
+X:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.deps.json
+X:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.runtimeconfig.json
+X:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.runtimeconfig.dev.json
+X:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.dll
+X:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.pdb
+X:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+X:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+X:\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.csprojResolveAssemblyReference.cache
+X:\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.AssemblyInfo.cs
+X:\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.dll
+X:\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.pdb
+W:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.deps.json
+W:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.runtimeconfig.json
+W:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.runtimeconfig.dev.json
+W:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.dll
+W:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\HappyKids.pdb
+W:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+W:\Desktop\git\NETCOREAPITDD\HappyKids\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+W:\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.csprojResolveAssemblyReference.cache
+W:\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.AssemblyInfo.cs
+W:\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.dll
+W:\Desktop\git\NETCOREAPITDD\HappyKids\obj\Debug\netcoreapp1.1\HappyKids.pdb

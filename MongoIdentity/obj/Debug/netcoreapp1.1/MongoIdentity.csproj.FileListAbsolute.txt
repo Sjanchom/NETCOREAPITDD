@@ -19,3 +19,24 @@ V:\Documents\Visual Studio 2017\Projects\HappyKids\MongoIdentity\obj\Debug\netco
 \\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.AssemblyInfo.cs
 \\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.dll
 \\Mac\Home\Documents\Visual Studio 2017\Projects\HappyKids\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.pdb
+\\Mac\Home\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.deps.json
+\\Mac\Home\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+\\Mac\Home\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+\\Mac\Home\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.csprojResolveAssemblyReference.cache
+\\Mac\Home\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.AssemblyInfo.cs
+\\Mac\Home\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.dll
+\\Mac\Home\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.pdb
+X:\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.deps.json
+X:\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+X:\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+X:\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.csprojResolveAssemblyReference.cache
+X:\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.AssemblyInfo.cs
+X:\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.dll
+X:\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.pdb
+W:\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.deps.json
+W:\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.dll
+W:\Desktop\git\NETCOREAPITDD\MongoIdentity\bin\Debug\netcoreapp1.1\MongoIdentity.pdb
+W:\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.csprojResolveAssemblyReference.cache
+W:\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.AssemblyInfo.cs
+W:\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.dll
+W:\Desktop\git\NETCOREAPITDD\MongoIdentity\obj\Debug\netcoreapp1.1\MongoIdentity.pdb

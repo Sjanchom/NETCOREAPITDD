@@ -1,13 +1,14 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "88738fe7ef800817534178c35e154bb669ba786b"
+    "signature": "ba06c7ef18d9b40f29928a776951e5c797c3f637"
   },
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v1.1": {
       "happykids.test/1.0.0": {
         "dependencies": {
+          "AutoMapper": "6.0.2",
           "HappyKids": "1.0.0",
           "Microsoft.AspNetCore.Mvc": "1.1.2",
           "Microsoft.AspNetCore.Mvc.Abstractions": "1.1.2",
@@ -18,6 +19,15 @@
         },
         "runtime": {
           "HappyKids.Test.dll": {}
+        }
+      },
+      "automapper/6.0.2": {
+        "dependencies": {
+          "System.Collections.Specialized": "4.3.0",
+          "System.ComponentModel.TypeConverter": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/AutoMapper.dll": {}
         }
       },
       "castle.core/4.0.0": {
@@ -1334,6 +1344,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "automapper/6.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uI4uPyibgP4+2zn21fVqy0ep+eYeB5IcfjanyUESj+F0qcrOYpAW4iH2+xKET0vfhgJn4U1c4xN3stKUhygTmQ==",
+      "path": "automapper/6.0.2",
+      "hashPath": "automapper.6.0.2.nupkg.sha512"
     },
     "castle.core/4.0.0": {
       "type": "package",

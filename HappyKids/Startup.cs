@@ -73,9 +73,9 @@ namespace HappyKids
 
             services.Configure<IdentityOptions>(options =>
             {
-                var dataProtectionPath = Path.Combine(_env.WebRootPath, "identity-artifacts");
+                //var dataProtectionPath = Path.Combine(_env.WebRootPath, "identity-artifacts");
                 options.Cookies.ApplicationCookie.AuthenticationScheme = "ApplicationCookie";
-                options.Cookies.ApplicationCookie.DataProtectionProvider = DataProtectionProvider.Create(dataProtectionPath);
+                //options.Cookies.ApplicationCookie.DataProtectionProvider = DataProtectionProvider.Create(dataProtectionPath);
                 options.Lockout.AllowedForNewUsers = true;
 
                 options.Password.RequireDigit = true;
