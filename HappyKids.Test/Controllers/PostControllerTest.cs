@@ -57,6 +57,16 @@ namespace HappyKids.Test.Controllers
                     _randomStudent.Single(x => x.Id == id).IsActived = 0;
                 }));
 
+            repository.Setup(x => x.UpdateStudent(It.IsAny<Student>()))
+               .Callback(new Action<Student>(x =>
+               {
+                   var oldStudent = _randomStudent.Find(a => a.Id == x.Id);
+                   oldStudent.BirthDate = x.BirthDate;
+                   oldStudent.Name = x.Name;
+                   oldStudent.IsActived = 1;
+                   oldStudent.UpdateAt = DateTime.Now;
+               }));
+
             repository.Setup(x => x.IsStudentExist(It.IsAny<String>()))
                 .Returns(new Func<string, bool>(
                     id => _randomStudent.Any(x => x.Id == id)));
@@ -212,8 +222,14 @@ namespace HappyKids.Test.Controllers
             student.Id = "1";
             student.Name = "UpdateName";
 
+
             var sut = controller.UpdateStudent(student);
+            var updateSudent = _randomStudent.Single(x => x.Id == student.Id);
+            var mapUpdateStudentWithDto = AutoMapper.Mapper.Map<StudentDTO>(updateSudent);
+
             Assert.IsType<NoContentResult>(sut);
+            AssertObjects.PropertyValuesAreEquals(student, mapUpdateStudentWithDto);
+
         }
 
         [Fact]
@@ -225,13 +241,18 @@ namespace HappyKids.Test.Controllers
             student.Name = "UpdateName";
 
             var sut = controller.UpdateStudent(student);
+            var updateSudent = _randomStudent.Single(x => x.Id == student.Id);
+            var mapUpdateStudentWithDto = AutoMapper.Mapper.Map<StudentDTO>(updateSudent);
+
             Assert.IsType<NoContentResult>(sut);
-            //Assert.Equal();
+            Assert.Null(mapUpdateStudentWithDto.BirthDate);
         }
 
         [Fact]
-        public void ShouldreturnNotFoundWhenIdNotExistinCollection()
+        public void ShouldReturnNotFoundWhenIdNotExistinCollection()
         {
+            var controller = new StudentsController(_unitOfWork);
+            var sut = controller
         }
     }
 
@@ -245,7 +266,7 @@ namespace HappyKids.Test.Controllers
         public string Name { get; set; }
 
         [Required]
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
     }
 
     public interface IUnitOfWork
@@ -260,6 +281,7 @@ namespace HappyKids.Test.Controllers
         void CreateStudent(Student student);
         void RemoveStudent(string studentId);
         bool IsStudentExist(string studentId);
+        void UpdateStudent(Student selectedStudent);
     }
 
     public class Student
@@ -271,6 +293,7 @@ namespace HappyKids.Test.Controllers
         public DateTime? BirthDate { get; set; }
         public ICollection<DairyReport> DairyReports { get; set; }
         public int IsActived { get; set; } = 1;
+        public DateTime? UpdateAt { get; set; }
     }
 
     public class DairyReport
@@ -317,8 +340,22 @@ namespace HappyKids.Test.Controllers
             return Ok(mapToDto);
         }
 
-        public object UpdateStudent(StudentDTO student)
+        public IActionResult UpdateStudent(StudentDTO student)
         {
+            var selectedStudent =  _unitOfWork.StudentRepository.GetStudentById(student.Id);
+            AutoMapper.Mapper.Map(student,selectedStudent);
+
+
+            try
+            {
+                _unitOfWork.StudentRepository.UpdateStudent(selectedStudent);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Cannot Delete Student ID:{student.Id}");
+            }
+
+
             return NoContent();
         }
 
@@ -346,6 +383,7 @@ namespace HappyKids.Test.Controllers
             return CreatedAtRoute("GetBookById", new {id = studentReturn.Id}, student);
         }
 
+        [HttpDelete]
         public IActionResult DeleteStudent(string studentId)
         {
             if (!_unitOfWork.StudentRepository.IsStudentExist(studentId))
