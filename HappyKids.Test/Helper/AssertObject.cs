@@ -22,6 +22,29 @@ namespace HappyKids.Test.Helper
             }
         }
 
+        public static void ListAreEquals(IList actual, IList expected)
+        {
+            if (actual.Count != expected.Count)
+                Assert.True(false, $"List Count Not Equals");
+
+            PropertyInfo[] properties = expected[0].GetType().GetProperties();
+
+            for (int i = 0; i < expected.Count -1; i++)
+            {
+                foreach (PropertyInfo property in properties)
+                {
+                    object expectedValue = property.GetValue(expected[i], null);
+                    object actualValue = property.GetValue(actual[i], null);
+
+             
+                    if (!Equals(expectedValue, actualValue))
+                        if (property.DeclaringType != null)
+                            Assert.True(false, $"Property {property.DeclaringType.Name}.{property.Name} does not match. Expected: {expectedValue} but was: {actualValue} at position:{i}");
+                }
+            }
+        
+        }
+
         private static void AssertListsAreEquals(PropertyInfo property, IList actualList, IList expectedList)
         {
             if (actualList.Count != expectedList.Count)

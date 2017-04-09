@@ -14,6 +14,7 @@ namespace HappyKids.Test.Helper
                 //    .ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                 //    src.DateOfBirth.GetCurrentAge(src.DateOfDeath)));
                 cfg.CreateMap<Student, StudentDTO>().ReverseMap();
+                cfg.CreateMap<Student, StudentForUpdateDTO>().ReverseMap();
                 //cfg.CreateMap<Entities.Book, Models.BookDto>();
 
                 //cfg.CreateMap<Models.AuthorForCreationDto, Entities.Author>();
