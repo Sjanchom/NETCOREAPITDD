@@ -241,7 +241,7 @@ namespace HappyKids.Test.Controllers
             student.Name = "UpdateName";
 
             var sut = controller.UpdateStudent("kjh1", student);
-            var notFoundResult = Assert.IsType<NotFoundResult>(sut);
+            Assert.IsType<NotFoundResult>(sut);
 
         }
 
@@ -261,7 +261,7 @@ namespace HappyKids.Test.Controllers
         }
 
         [Fact]
-        public void ShouldReturnNotFoundWhenIdNotExistinCollection()
+        public void ShouldReturnNoContentWhenSuccess()
         {
             var controller = new StudentsController(_unitOfWork);
             var patch = new JsonPatchDocument<StudentDTO>();
@@ -285,6 +285,21 @@ namespace HappyKids.Test.Controllers
             AssertObjects.PropertyValuesAreEquals(student, studentInDb);
 
         }
+
+        [Fact]
+        public void ShouldReturnNotFoundWhenIdNotExistInCollection()
+        {
+            var controller = new StudentsController(_unitOfWork);
+            var patch = new JsonPatchDocument<StudentDTO>();
+            patch.Operations.Add(new Operation<StudentDTO>("replace", "/Name", null, "PartialUpdate"));
+
+
+            var sut = controller.PartialUpdateStudent("2sff", patch);
+
+
+            Assert.IsType<NotFoundResult>(sut);
+        }
+
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -378,29 +393,7 @@ namespace HappyKids.Test.Controllers
             return Ok(mapToDto);
         }
 
-        public IActionResult UpdateStudent(string id,StudentForUpdateDTO student)
-        {
-            var selectedStudent =  _unitOfWork.StudentRepository.GetStudentById(id);
-
-            if (selectedStudent == null)
-            {
-                return NotFound();
-            }
-
-            Mapper.Map(student,selectedStudent);
-
-            try
-            {
-                _unitOfWork.StudentRepository.UpdateStudent(selectedStudent);
-            }
-            catch (Exception)
-            {
-                throw new Exception($"Cannot Update Student ID:{id}");
-            }
-
-
-            return NoContent();
-        }
+   
 
 
         [HttpPost]
@@ -444,10 +437,38 @@ namespace HappyKids.Test.Controllers
             return NoContent();
         }
 
+        public IActionResult UpdateStudent(string id, StudentForUpdateDTO student)
+        {
+            var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
+
+            if (selectedStudent == null)
+            {
+                return NotFound();
+            }
+
+            Mapper.Map(student, selectedStudent);
+
+            try
+            {
+                _unitOfWork.StudentRepository.UpdateStudent(selectedStudent);
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Cannot Update Student ID:{id}");
+            }
+
+
+            return NoContent();
+        }
+
         public IActionResult PartialUpdateStudent(string id,[FromBody] JsonPatchDocument<StudentDTO> patchDocStudentDto)
         {
 
             var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
+            if (selectedStudent == null)
+            {
+                return NotFound();
+            }
             var studentToPatch = Mapper.Map<StudentDTO>(selectedStudent);
 
             patchDocStudentDto.ApplyTo(studentToPatch,ModelState);
