@@ -39,7 +39,18 @@ namespace HappyKids.Test.Controllers
         private IStudentRepository SetUpStudentRepository()
         {
             var repository = new Mock<IStudentRepository>();
-            repository.Setup(x => x.GetAllStudents()).Returns(_randomStudent);
+
+            repository.Setup(x => x.GetAllStudents(It.IsAny<StudentResourceParameters>()))
+                .Returns(new Func<StudentResourceParameters, IEnumerable<Student>>(
+                    studentResourceParameters => 
+                        _randomStudent
+                        .Where(x => (string.IsNullOrWhiteSpace(studentResourceParameters.Name) 
+                        || x.Name.ToUpperInvariant().Contains(studentResourceParameters.Name.ToUpperInvariant())))
+                        .Skip((studentResourceParameters.PageNumber - 1) *
+                         studentResourceParameters.PageSize)
+                        .Take(studentResourceParameters.PageSize)
+                        .ToList()));
+
             repository.Setup(p => p.GetStudentById(It.IsAny<string>()))
                 .Returns(new Func<string, Student>(
                     id => _randomStudent.Find(p => p.Id.Equals(id))));
@@ -90,24 +101,64 @@ namespace HappyKids.Test.Controllers
         [Fact]
         public void ShouldNotNull()
         {
+            var resource = new StudentResourceParameters();
+            resource.PageSize = 20;
+
             var controller = new StudentsController(_unitOfWork);
-            var sut = controller.GetAllPost();
+            var sut = controller.GetAllPost(resource);
 
             Assert.NotNull(sut);
         }
 
         [Fact]
-        public void ShouldReturnAllList()
+        public void ShouldReturnCorrectSize()
         {
+            var resource = new StudentResourceParameters();
+            resource.PageSize = 15;
+            resource.PageNumber = 2;
+
+
             var controller = new StudentsController(_unitOfWork);
-            var sut = controller.GetAllPost();
+            var sut = controller.GetAllPost(resource);
 
             var okResult = Assert.IsType<OkObjectResult>(sut);
             var returnObject = Assert.IsType<List<StudentDTO>>(okResult.Value);
-            var mappingAllListToDto = Mapper.Map<List<StudentDTO>>(_randomStudent);
-            Assert.Equal(5, returnObject.Count);
-            AssertObjects.ListAreEquals(returnObject, mappingAllListToDto);
+            Assert.Equal(StudentResourceParameters.maxPageSize, returnObject.Count);
+            Assert.True(!returnObject.Contains(Mapper.Map<StudentDTO>(_randomStudent[1])));
+            AssertObjects.PropertyValuesAreEquals(returnObject[0], Mapper.Map<StudentDTO>(_randomStudent[10]));
         }
+
+        [Fact]
+        public void ShouldReturnCorrectItem()
+        {
+            var resource = new StudentResourceParameters();
+            resource.PageSize = 15;
+            resource.PageNumber = 1;
+            resource.Name = "N";
+
+            var controller = new StudentsController(_unitOfWork);
+            var sut = controller.GetAllPost(resource);
+
+            var okResult = Assert.IsType<OkObjectResult>(sut);
+            var returnObject = Assert.IsType<List<StudentDTO>>(okResult.Value);
+            Assert.True(returnObject.All(x => x.Name.ToUpperInvariant().Contains(resource.Name.ToUpperInvariant())));
+        }
+
+
+        //[Fact]
+        //public void ShouldReturnCorrectSequence()
+        //{
+        //    var resource = new StudentResourceParameters();
+        //    resource.PageNumber = 1;
+        //    resource.OrderBy = "BirthDate";
+
+        //    var controller = new StudentsController(_unitOfWork);
+        //    var sut = controller.GetAllPost(resource);
+
+        //    var okResult = Assert.IsType<OkObjectResult>(sut);
+        //    var returnObject = Assert.IsType<List<StudentDTO>>(okResult.Value);
+        //    Assert.True(returnObject.All(x => x.Name.ToUpperInvariant().Contains(resource.Name.ToUpperInvariant())));
+        //}
 
         [Fact]
         public void ShouldReturnCorrectId()
@@ -302,6 +353,27 @@ namespace HappyKids.Test.Controllers
 
     }
 
+    public class StudentResourceParameters
+    {
+        public static readonly int maxPageSize = 10;
+        public int PageNumber { get; set; } = 1;
+
+        private int _pageSize = 10;
+        public int PageSize
+        {
+            get
+            {
+                return _pageSize;
+            }
+            set
+            {
+                _pageSize = (value > maxPageSize) ? maxPageSize : value;
+            }
+        }
+
+        public string Name { get; set; }
+    }
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class StudentDTO
     {
@@ -322,7 +394,7 @@ namespace HappyKids.Test.Controllers
 
     public interface IStudentRepository
     {
-        IEnumerable<Student> GetAllStudents();
+        IEnumerable<Student> GetAllStudents(StudentResourceParameters studentResourceParameters);
         Student GetStudentById(string id);
         void CreateStudent(Student student);
         void RemoveStudent(string studentId);
@@ -371,9 +443,9 @@ namespace HappyKids.Test.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllPost()
+        public IActionResult GetAllPost(StudentResourceParameters studentResourceParameters)
         {
-            var listOfPost = _unitOfWork.StudentRepository.GetAllStudents();
+            var listOfPost = _unitOfWork.StudentRepository.GetAllStudents(studentResourceParameters);
             var listOfDtos =  Mapper.Map<List<StudentDTO>>(listOfPost);
             return Ok(listOfDtos);
         }
