@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "ba06c7ef18d9b40f29928a776951e5c797c3f637"
+    "signature": "180cd9b65b65617ac646e4d81a722aead41c6804"
   },
   "compilationOptions": {},
   "targets": {
@@ -12,6 +12,7 @@
           "HappyKids": "1.0.0",
           "Microsoft.AspNetCore.Mvc": "1.1.2",
           "Microsoft.AspNetCore.Mvc.Abstractions": "1.1.2",
+          "Microsoft.AspNetCore.TestHost": "1.1.1",
           "Microsoft.NET.Test.Sdk": "15.0.0",
           "Moq": "4.7.8",
           "xunit": "2.2.0",
@@ -540,6 +541,15 @@
         },
         "runtime": {
           "lib/netstandard1.3/Microsoft.AspNetCore.StaticFiles.dll": {}
+        }
+      },
+      "microsoft.aspnetcore.testhost/1.1.1": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Hosting": "1.1.1",
+          "System.Diagnostics.Contracts": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Microsoft.AspNetCore.TestHost.dll": {}
         }
       },
       "microsoft.aspnetcore.webutilities/1.1.1": {
@@ -1695,6 +1705,13 @@
       "sha512": "sha512-exlRgKfgh1JN8TEe80yBYlpkAxn/UKqkEEqTogaN/VCuev9NeJ1HMaldmObaWaUWY82UurNpghWKGuxMksA4tw==",
       "path": "microsoft.aspnetcore.staticfiles/1.1.1",
       "hashPath": "microsoft.aspnetcore.staticfiles.1.1.1.nupkg.sha512"
+    },
+    "microsoft.aspnetcore.testhost/1.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wFgL8B5qnLYsN5RlY6TN9z1RxF81NRAsruKKRaD1C+Xm1xp0wTAAbNqoqO5lXbwQw1olb3TyfRHC/UsQc63Vxg==",
+      "path": "microsoft.aspnetcore.testhost/1.1.1",
+      "hashPath": "microsoft.aspnetcore.testhost.1.1.1.nupkg.sha512"
     },
     "microsoft.aspnetcore.webutilities/1.1.1": {
       "type": "package",

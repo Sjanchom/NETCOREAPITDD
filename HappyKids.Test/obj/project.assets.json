@@ -907,6 +907,20 @@
           "lib/netstandard1.3/Microsoft.AspNetCore.StaticFiles.dll": {}
         }
       },
+      "Microsoft.AspNetCore.TestHost/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Hosting": "1.1.1",
+          "NETStandard.Library": "1.6.1",
+          "System.Diagnostics.Contracts": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Microsoft.AspNetCore.TestHost.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Microsoft.AspNetCore.TestHost.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.WebUtilities/1.1.1": {
         "type": "package",
         "dependencies": {
@@ -5201,6 +5215,19 @@
         "lib/netstandard1.3/Microsoft.AspNetCore.StaticFiles.xml",
         "microsoft.aspnetcore.staticfiles.1.1.1.nupkg.sha512",
         "microsoft.aspnetcore.staticfiles.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.TestHost/1.1.1": {
+      "sha512": "wFgL8B5qnLYsN5RlY6TN9z1RxF81NRAsruKKRaD1C+Xm1xp0wTAAbNqoqO5lXbwQw1olb3TyfRHC/UsQc63Vxg==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.testhost/1.1.1",
+      "files": [
+        "lib/net451/Microsoft.AspNetCore.TestHost.dll",
+        "lib/net451/Microsoft.AspNetCore.TestHost.xml",
+        "lib/netstandard1.3/Microsoft.AspNetCore.TestHost.dll",
+        "lib/netstandard1.3/Microsoft.AspNetCore.TestHost.xml",
+        "microsoft.aspnetcore.testhost.1.1.1.nupkg.sha512",
+        "microsoft.aspnetcore.testhost.nuspec"
       ]
     },
     "Microsoft.AspNetCore.WebUtilities/1.1.1": {
@@ -11490,6 +11517,7 @@
       "HappyKids >= 1.0.0",
       "Microsoft.AspNetCore.Mvc >= 1.1.2",
       "Microsoft.AspNetCore.Mvc.Abstractions >= 1.1.2",
+      "Microsoft.AspNetCore.TestHost >= 1.1.1",
       "Microsoft.NET.Test.Sdk >= 15.0.0",
       "Microsoft.NETCore.App >= 1.1.1",
       "Moq >= 4.7.8",
@@ -11556,6 +11584,10 @@
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "15.0.0"
+          },
+          "Microsoft.AspNetCore.TestHost": {
+            "target": "Package",
+            "version": "1.1.1"
           }
         }
       }

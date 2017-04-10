@@ -51,7 +51,7 @@ namespace HappyKids.Controllers
 
 
               
-        [HttpPatch]
+        [HttpGet]
         //[Authorize]
         public IEnumerable<string> GetAll()
         {
