@@ -52,7 +52,6 @@ namespace HappyKids.Controllers
 
               
         [HttpGet]
-        //[Authorize]
         public IEnumerable<string> GetAll()
         {
             //var identity = (ClaimsIdentity)User.Identity;
