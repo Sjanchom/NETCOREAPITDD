@@ -1,4 +1,5 @@
-﻿using HappyKids.Test.Controllers;
+﻿using HappyKids.Models.DataTranferObjects;
+using HappyKids.Models.Domain;
 
 namespace HappyKids.Test.Helper
 {

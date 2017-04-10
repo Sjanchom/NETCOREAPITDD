@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using HappyKids.Test.Controllers;
+﻿using System.Collections.Generic;
+using HappyKids.Models.Domain;
 
 namespace HappyKids.Test.Helper
 {

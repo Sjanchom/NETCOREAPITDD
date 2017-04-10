@@ -1,30 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using AutoMapper;
+using HappyKids.Controllers;
 using HappyKids.Test.Helper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson.Serialization.Attributes;
 using Moq;
 using Xunit;
+using HappyKids.Cores;
+using HappyKids.Models.DataTranferObjects;
+using HappyKids.Models.Domain;
 
 namespace HappyKids.Test.Controllers
 {
-    public class PostControllerTest
+    public class StudentControllerTest
     {
         private readonly List<Student> _randomStudent;
         private readonly IUnitOfWork _unitOfWork;
+        private IUrlHelper _urlHelper;
 
 
-        public PostControllerTest()
+        public StudentControllerTest()
         {
             MapperHelper.SetUpMapper();
             _randomStudent = SetupStudents();
             _unitOfWork = SetUpUnitOfWork();
+            _urlHelper = SetupUrlHelper();
+        }
+
+        private IUrlHelper SetupUrlHelper()
+        {
+            var urlHelper = new Mock<IUrlHelper>();
+            urlHelper.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<StudentResourceParameters>()))
+                .Returns($"http:localhost/");
+
+            return urlHelper.Object;
         }
 
         private IUnitOfWork SetUpUnitOfWork()
@@ -351,218 +363,6 @@ namespace HappyKids.Test.Controllers
             Assert.IsType<NotFoundResult>(sut);
         }
 
-    }
-
-    public class StudentResourceParameters
-    {
-        public static readonly int maxPageSize = 10;
-        public int PageNumber { get; set; } = 1;
-
-        private int _pageSize = 10;
-        public int PageSize
-        {
-            get
-            {
-                return _pageSize;
-            }
-            set
-            {
-                _pageSize = (value > maxPageSize) ? maxPageSize : value;
-            }
-        }
-
-        public string Name { get; set; }
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class StudentDTO
-    {
-        public string Id { get; set; }
-
-        [Required(ErrorMessage = "You should fill out a Name.")]
-        [MinLength(5, ErrorMessage = "The description shouldn't have more than 500 characters.")]
-        public string Name { get; set; }
-
-        [Required]
-        public DateTime? BirthDate { get; set; }
-    }
-
-    public interface IUnitOfWork
-    {
-        IStudentRepository StudentRepository { get; }
-    }
-
-    public interface IStudentRepository
-    {
-        IEnumerable<Student> GetAllStudents(StudentResourceParameters studentResourceParameters);
-        Student GetStudentById(string id);
-        void CreateStudent(Student student);
-        void RemoveStudent(string studentId);
-        bool IsStudentExist(string studentId);
-        void UpdateStudent(Student selectedStudent);
-    }
-
-    public class Student
-    {
-        [BsonId]
-        public string Id { get; set; }
-
-        public string Name { get; set; }
-        public DateTime? BirthDate { get; set; }
-        public ICollection<DairyReport> DairyReports { get; set; }
-        public int IsActived { get; set; } = 1;
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class StudentForUpdateDTO
-    {
-        public string Name { get; set; }
-        public DateTime? BirthDate { get; set; }
-    }
-
-    public class DairyReport
-
-    {
-        [BsonId]
-        public string Id { get; set; }
-
-        public string Title { get; set; }
-        public string Body { get; set; }
-        public DateTime UpdatedOn { get; set; } = DateTime.Now;
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
-        public string CreateBy { get; set; }
-    }
-
-    public class StudentsController : Controller
-    {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public StudentsController(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
-        }
-
-        [HttpGet]
-        public IActionResult GetAllPost(StudentResourceParameters studentResourceParameters)
-        {
-            var listOfPost = _unitOfWork.StudentRepository.GetAllStudents(studentResourceParameters);
-            var listOfDtos =  Mapper.Map<List<StudentDTO>>(listOfPost);
-            return Ok(listOfDtos);
-        }
-
-        [HttpGet(Name = "GetBookById")]
-        public IActionResult GetById(string id)
-        {
-            var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
-
-            if (selectedStudent == null)
-            {
-                return NotFound();
-            }
-
-            var mapToDto = Mapper.Map<StudentDTO>(selectedStudent);
-
-            return Ok(mapToDto);
-        }
-
-   
-
-
-        [HttpPost]
-        public IActionResult CreateStudent([FromBody]StudentDTO student)
-        {
-
-            if (student == null)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(student);
-            }
-
-            var studentMap = Mapper.Map<Student>(student);
-
-            _unitOfWork.StudentRepository.CreateStudent(studentMap);
-
-            var studentReturn = Mapper.Map<StudentDTO>(studentMap);
-
-            return CreatedAtRoute("GetBookById", new {id = studentReturn.Id}, student);
-        }
-
-        [HttpDelete]
-        public IActionResult DeleteStudent(string studentId)
-        {
-            if (!_unitOfWork.StudentRepository.IsStudentExist(studentId))
-            {
-                return NotFound(studentId);
-            }
-            try
-            {
-                _unitOfWork.StudentRepository.RemoveStudent(studentId);
-            }
-            catch (Exception)
-            {
-                throw new Exception($"Cannot Delete Student ID:{studentId}");
-            }
-            return NoContent();
-        }
-
-        public IActionResult UpdateStudent(string id, StudentForUpdateDTO student)
-        {
-            var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
-
-            if (selectedStudent == null)
-            {
-                return NotFound();
-            }
-
-            Mapper.Map(student, selectedStudent);
-
-            try
-            {
-                _unitOfWork.StudentRepository.UpdateStudent(selectedStudent);
-            }
-            catch (Exception)
-            {
-                throw new Exception($"Cannot Update Student ID:{id}");
-            }
-
-
-            return NoContent();
-        }
-
-        public IActionResult PartialUpdateStudent(string id,[FromBody] JsonPatchDocument<StudentDTO> patchDocStudentDto)
-        {
-
-            var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
-            if (selectedStudent == null)
-            {
-                return NotFound();
-            }
-            var studentToPatch = Mapper.Map<StudentDTO>(selectedStudent);
-
-            patchDocStudentDto.ApplyTo(studentToPatch,ModelState);
-       
-            if (!ModelState.IsValid)
-            {
-                return NotFound();
-            }
-
-            Mapper.Map(studentToPatch, selectedStudent);
-
-            try
-            {
-                _unitOfWork.StudentRepository.UpdateStudent(selectedStudent);
-            }
-            catch (Exception)
-            {
-                throw new Exception($"Cannot Update Student ID:{selectedStudent.Id}");
-            }
-
-            return NoContent();
-        }
     }
 
    
