@@ -38,7 +38,7 @@ namespace HappyKids.Test.IntegrationTests
             var builder = new WebHostBuilder()
                 .UseContentRoot(contentRoot)
                 .ConfigureServices(InitializeServices)
-                .UseEnvironment("Development")
+                .UseEnvironment("Test")
                 .UseStartup(typeof(TStartup));
 
             _server = new TestServer(builder);

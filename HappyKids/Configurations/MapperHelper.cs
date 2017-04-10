@@ -1,9 +1,9 @@
 ﻿using HappyKids.Models.DataTranferObjects;
 using HappyKids.Models.Domain;
 
-namespace HappyKids.Test.Helper
+namespace HappyKids.Configurations
 {
-    class MapperHelper
+    public class MapperHelper
     {
         public static void SetUpMapper()
         {

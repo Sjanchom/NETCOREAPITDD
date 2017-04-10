@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyKids", "HappyKids\HappyKids.csproj", "{DDA4643C-DE80-4D92-9E89-D2BBE07BA557}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyKids", "HappyKids\HappyKids.csproj", "{DDA4643C-DE80-4D92-9E89-D2BBE07BA557}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoIdentity", "MongoIdentity\MongoIdentity.csproj", "{91249946-EDA7-4BFC-BD32-979BF632A356}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoIdentity", "MongoIdentity\MongoIdentity.csproj", "{91249946-EDA7-4BFC-BD32-979BF632A356}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HappyKids.Test", "HappyKids.Test\HappyKids.Test.csproj", "{AC416DE5-5AEC-48CE-BC21-AA0DF0175452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HappyKids.Test", "HappyKids.Test\HappyKids.Test.csproj", "{AC416DE5-5AEC-48CE-BC21-AA0DF0175452}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

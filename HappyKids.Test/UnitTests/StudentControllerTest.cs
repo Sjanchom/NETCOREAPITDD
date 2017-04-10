@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using AutoMapper;
+using HappyKids.Configurations;
 using HappyKids.Controllers;
+using HappyKids.Cores;
+using HappyKids.Helper;
+using HappyKids.Models.DataTranferObjects;
+using HappyKids.Models.Domain;
 using HappyKids.Test.Helper;
+using HappyKids.TestMock;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
-using HappyKids.Cores;
-using HappyKids.Models.DataTranferObjects;
-using HappyKids.Models.Domain;
 
-namespace HappyKids.Test.Controllers
+namespace HappyKids.Test.UnitTests
 {
+    [Category("Student")]
     public class StudentControllerTest
     {
         private readonly List<Student> _randomStudent;
@@ -25,8 +30,8 @@ namespace HappyKids.Test.Controllers
         public StudentControllerTest()
         {
             MapperHelper.SetUpMapper();
-            _randomStudent = SetupStudents();
-            _unitOfWork = SetUpUnitOfWork();
+            _randomStudent = SetUpMockHelper.SetupStudents();
+            _unitOfWork = SetUpMockHelper.SetUpUnitOfWork();
             _urlHelper = SetupUrlHelper();
         }
 
@@ -39,75 +44,7 @@ namespace HappyKids.Test.Controllers
             return urlHelper.Object;
         }
 
-        private IUnitOfWork SetUpUnitOfWork()
-        {
-            var unitOfWork = new Mock<IUnitOfWork>();
-            unitOfWork.SetupGet(x => x.StudentRepository)
-                .Returns(SetUpStudentRepository());
-
-            return unitOfWork.Object;
-        }
-
-        private IStudentRepository SetUpStudentRepository()
-        {
-            var repository = new Mock<IStudentRepository>();
-
-            repository.Setup(x => x.GetAllStudents(It.IsAny<StudentResourceParameters>()))
-                .Returns(new Func<StudentResourceParameters, IEnumerable<Student>>(
-                    studentResourceParameters => 
-                        _randomStudent
-                        .Where(x => (string.IsNullOrWhiteSpace(studentResourceParameters.Name) 
-                        || x.Name.ToUpperInvariant().Contains(studentResourceParameters.Name.ToUpperInvariant())))
-                        .Skip((studentResourceParameters.PageNumber - 1) *
-                         studentResourceParameters.PageSize)
-                        .Take(studentResourceParameters.PageSize)
-                        .ToList()));
-
-            repository.Setup(p => p.GetStudentById(It.IsAny<string>()))
-                .Returns(new Func<string, Student>(
-                    id => _randomStudent.Find(p => p.Id.Equals(id))));
-
-            repository.Setup(x => x.CreateStudent(It.IsAny<Student>()))
-                .Callback(new Action<Student>(newStudent =>
-                {
-                    dynamic maxProductId = _randomStudent.Last().Id;
-                    dynamic nextProductId = Convert.ToInt32(maxProductId) + 1;
-                    newStudent.Id = nextProductId.ToString();
-                    _randomStudent.Add(newStudent);
-                }));
-
-            repository.Setup(x => x.RemoveStudent(It.IsAny<String>()))
-              .Callback(new Action<String>(id =>
-                {
-                    _randomStudent.Single(x => x.Id == id).IsActived = 0;
-                }));
-
-            repository.Setup(x => x.UpdateStudent(It.IsAny<Student>()))
-               .Callback(new Action<Student>(x =>
-               {
-                   var oldStudent = _randomStudent.Find(a => a.Id == x.Id);
-                   oldStudent.BirthDate = x.BirthDate;
-                   oldStudent.Name = x.Name;
-                   oldStudent.IsActived = 1;
-               }));
-
-            repository.Setup(x => x.IsStudentExist(It.IsAny<String>()))
-                .Returns(new Func<string, bool>(
-                    id => _randomStudent.Any(x => x.Id == id)));
-
-            return repository.Object;
-        }
-
-        private static List<Student> SetupStudents()
-        {
-            int counter = new int();
-            List<Student> students = DataInitializer.GetAllProducts();
-
-            foreach (Student student in students)
-                student.Id = (++counter).ToString();
-
-            return students;
-        }
+       
 
 
         [Fact]

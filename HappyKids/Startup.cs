@@ -10,11 +10,16 @@ using System.IO;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text;
+using HappyKids.Cores;
 using HappyKids.Services;
+using HappyKids.TestMock;
 using MongoDB.Driver;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.IdentityModel.Tokens;
 using MongoIdentity;
 
@@ -116,6 +121,21 @@ namespace HappyKids
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            if (_env.EnvironmentName.Equals("Test"))
+            {
+                //services.AddScoped<IStudentRepository, LibraryRepository>();
+                services.AddScoped<IUnitOfWork>(serviceProvider => SetUpMockHelper.SetUpUnitOfWork());
+
+                services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+                services.AddScoped<IUrlHelper>(implementationFactory =>
+                {
+                    var actionContext = implementationFactory.GetService<IActionContextAccessor>()
+                    .ActionContext;
+                    return new UrlHelper(actionContext);
+                });
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,13 +1,23 @@
 ﻿using System.Collections.Generic;
+using HappyKids.Helper;
 using HappyKids.Models.Domain;
 
-namespace HappyKids.Test.Helper
+namespace HappyKids.TestMock
 {
-    public class DataInitializer
+    public sealed class DataInitializer
     {
-        public static List<Student> GetAllProducts()
+        private static DataInitializer instance = null;
+        private static readonly object padlock = new object();
+        private readonly List<Student> _students;
+
+        public List<Student> GetStudents() => _students;
+        //public static List<Student> GetStudents()
+        //{
+        //    return instance._students;
+        //}
+        private DataInitializer()
         {
-            var students = new List<Student>
+            _students = new List<Student>
                                {
                                    new Student()
                                    {
@@ -135,7 +145,25 @@ namespace HappyKids.Test.Helper
                                        BirthDate = UtilHelper.PareDateTime("11/07/2013")
                                    }
                                };
-            return students;
+            int counter = new int();
+            foreach (Student student in _students)
+                student.Id = (++counter).ToString();
         }
+
+                    public static DataInitializer Instance
+                    {
+                        get
+                        {
+                            lock (padlock)
+                            {
+                                if (instance == null)
+                                {
+                                    instance = new DataInitializer();
+                                }
+                                return instance;
+                            }
+                        }
+                    }
     }
+    
 }
