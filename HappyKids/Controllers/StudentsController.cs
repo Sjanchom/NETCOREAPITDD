@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HappyKids.Controllers
 {
+    [Route("api/students")]
     public class StudentsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -22,11 +23,11 @@ namespace HappyKids.Controllers
         public IActionResult GetAllPost(StudentResourceParameters studentResourceParameters)
         {
             var listOfPost = _unitOfWork.StudentRepository.GetAllStudents(studentResourceParameters);
-            var listOfDtos =  Mapper.Map<List<StudentDTO>>(listOfPost);
+            var listOfDtos = Mapper.Map<List<StudentDTO>>(listOfPost);
             return Ok(listOfDtos);
         }
 
-        [HttpGet(Name = "GetBookById")]
+        [HttpGet("{id}", Name = "GetBookById")]
         public IActionResult GetById(string id)
         {
             var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
@@ -41,11 +42,9 @@ namespace HappyKids.Controllers
             return Ok(mapToDto);
         }
 
-   
-
 
         [HttpPost]
-        public IActionResult CreateStudent([FromBody]StudentDTO student)
+        public IActionResult CreateStudent([FromBody]StudentForCreateDTO student)
         {
 
             if (student == null)
@@ -55,7 +54,7 @@ namespace HappyKids.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest((object) student);
+                return BadRequest(student);
             }
 
             var studentMap = Mapper.Map<Student>(student);
@@ -64,28 +63,30 @@ namespace HappyKids.Controllers
 
             var studentReturn = Mapper.Map<StudentDTO>(studentMap);
 
-            return CreatedAtRoute("GetBookById", new {id = studentReturn.Id}, student);
+            return CreatedAtRoute("GetBookById", new {id = studentReturn.Id}, studentReturn);
         }
 
-        [HttpDelete]
-        public IActionResult DeleteStudent(string studentId)
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteStudent(string id)
         {
-            if (!_unitOfWork.StudentRepository.IsStudentExist(studentId))
+            if (!_unitOfWork.StudentRepository.IsStudentExist(id))
             {
-                return NotFound(studentId);
+                return NotFound(id);
             }
             try
             {
-                _unitOfWork.StudentRepository.RemoveStudent(studentId);
+                _unitOfWork.StudentRepository.RemoveStudent(id);
             }
             catch (Exception)
             {
-                throw new Exception($"Cannot Delete Student ID:{studentId}");
+                throw new Exception($"Cannot Delete Student ID:{id}");
             }
             return NoContent();
         }
 
-        public IActionResult UpdateStudent(string id, StudentForUpdateDTO student)
+        [HttpPut("{id}")]
+        public IActionResult UpdateStudent(string id,[FromBody] StudentForUpdateDTO student)
         {
             var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
 

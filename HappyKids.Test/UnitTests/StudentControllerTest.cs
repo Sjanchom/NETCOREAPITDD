@@ -136,23 +136,23 @@ namespace HappyKids.Test.UnitTests
         {
             var controller = new StudentsController(_unitOfWork);
 
-            var student = new StudentDTO()
+            var student = new StudentForCreateDTO()
             {
                 Name = "Create Student",
-                BirthDate = UtilHelper.PareDateTime("15/02/2015")
+                BirthDate = "15/02/2015"
             };
 
             var sut = controller.CreateStudent(student);
             var maxProductIdBeforeAdd = _randomStudent.Max(a => Convert.ToInt32(a.Id));
-            student.Id = (maxProductIdBeforeAdd + 1).ToString();
+            var lastId = (maxProductIdBeforeAdd).ToString();
 
 
             var createAtRouteResult = Assert.IsType<CreatedAtRouteResult>(sut);
             var returnObject = Assert.IsType<StudentDTO>(createAtRouteResult.Value);
 
-            Assert.Equal(student.Id, returnObject.Id);
+            Assert.Equal(lastId, returnObject.Id);
             Assert.Equal(returnObject.Name,_randomStudent.Last().Name);
-            Assert.Equal(student.BirthDate,returnObject.BirthDate);
+            Assert.Equal(student.BirthDate,returnObject.BirthDate?.ToString("dd/MM/yyyy"));
         }
 
         [Fact]
@@ -170,7 +170,7 @@ namespace HappyKids.Test.UnitTests
         {
             var controller = new StudentsController(_unitOfWork);
             controller.ModelState.AddModelError("error", "some error");
-            var emptyStudentDto = new StudentDTO {Name = null};
+            var emptyStudentDto = new StudentForCreateDTO() {Name = null};
 
             var sut = controller.CreateStudent(emptyStudentDto);
 
@@ -222,7 +222,7 @@ namespace HappyKids.Test.UnitTests
             var controller = new StudentsController(_unitOfWork);
             var student = new StudentForUpdateDTO();
             student.Name = "UpdateName";
-
+            student.BirthDate = "22/01/2015";
 
             var sut = controller.UpdateStudent("1",student);
             var updateSudent = _randomStudent.Single(x => x.Id == "1");
@@ -230,6 +230,7 @@ namespace HappyKids.Test.UnitTests
 
             Assert.IsType<NoContentResult>(sut);
             Assert.Equal(student.Name,mapUpdateStudentWithDto.Name);
+            Assert.Equal(student.BirthDate,mapUpdateStudentWithDto.BirthDate);
 
         }
 
@@ -239,6 +240,7 @@ namespace HappyKids.Test.UnitTests
             var controller = new StudentsController(_unitOfWork);
             var student = new StudentForUpdateDTO();
             student.Name = "UpdateName";
+            controller.ModelState.AddModelError("error", "some error");
 
             var sut = controller.UpdateStudent("kjh1", student);
             Assert.IsType<NotFoundResult>(sut);

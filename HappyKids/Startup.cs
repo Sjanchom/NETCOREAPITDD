@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text;
+using HappyKids.Configurations;
 using HappyKids.Cores;
 using HappyKids.Services;
 using HappyKids.TestMock;
@@ -152,6 +153,8 @@ namespace HappyKids
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            MapperHelper.SetUpMapper();
             app.UseStaticFiles();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715

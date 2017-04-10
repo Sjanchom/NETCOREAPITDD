@@ -13,7 +13,7 @@ namespace HappyKids.Models.DataTranferObjects {
         public string Name { get; set; }
 
         [Required]
-        public DateTime? BirthDate { get; set; }
+        public string BirthDate { get; set; }
     }
 
    

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace HappyKids.Models.DataTranferObjects
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class StudentForUpdateDTO
+    public class StudentForUpdateDTO:StudentForManipulationDTO
     {
-        public string Name { get; set; }
-        public DateTime? BirthDate { get; set; }
+    
     }
 
    
