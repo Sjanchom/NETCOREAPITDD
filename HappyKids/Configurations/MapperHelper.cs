@@ -1,4 +1,5 @@
-﻿using HappyKids.Models.DataTranferObjects;
+﻿using HappyKids.Helper;
+using HappyKids.Models.DataTranferObjects;
 using HappyKids.Models.Domain;
 
 namespace HappyKids.Configurations
@@ -14,7 +15,9 @@ namespace HappyKids.Configurations
                 //    $"{src.FirstName} {src.LastName}"))
                 //    .ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                 //    src.DateOfBirth.GetCurrentAge(src.DateOfDeath)));
-                cfg.CreateMap<Student, StudentDTO>().ReverseMap();
+                cfg.CreateMap<Student, StudentDTO>()
+                .ForMember(desc => desc.BirthDate,opt => opt.MapFrom(src => src.BirthDate.Value.ToString("dd/MM/yyy")))
+                .ReverseMap();
                 cfg.CreateMap<Student, StudentForUpdateDTO>().ReverseMap();
                 cfg.CreateMap<Student, StudentForCreateDTO>().ReverseMap();
                 //cfg.CreateMap<Entities.Book, Models.BookDto>();

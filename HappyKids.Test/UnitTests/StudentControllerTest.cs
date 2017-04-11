@@ -6,7 +6,6 @@ using AutoMapper;
 using HappyKids.Configurations;
 using HappyKids.Controllers;
 using HappyKids.Cores;
-using HappyKids.Helper;
 using HappyKids.Models.DataTranferObjects;
 using HappyKids.Models.Domain;
 using HappyKids.Test.Helper;
@@ -55,6 +54,9 @@ namespace HappyKids.Test.UnitTests
 
             var controller = new StudentsController(_unitOfWork);
             var sut = controller.GetAllPost(resource);
+
+            var result = Assert.IsType<OkObjectResult>(sut);
+            Assert.IsType<List<StudentDTO>>(result.Value);
 
             Assert.NotNull(sut);
         }
@@ -120,6 +122,8 @@ namespace HappyKids.Test.UnitTests
 
             Assert.Equal("1", returnObject.Id);
             Assert.Equal(_randomStudent.Single(x => x.Id == "1").Name, returnObject.Name);
+            Assert.IsType<string>(returnObject.BirthDate);
+            Assert.NotNull(returnObject.BirthDate);
         }
 
         [Fact]
@@ -152,7 +156,7 @@ namespace HappyKids.Test.UnitTests
 
             Assert.Equal(lastId, returnObject.Id);
             Assert.Equal(returnObject.Name,_randomStudent.Last().Name);
-            Assert.Equal(student.BirthDate,returnObject.BirthDate?.ToString("dd/MM/yyyy"));
+            //Assert.Equal(student.BirthDate,returnObject.BirthDate?.ToString("dd/MM/yyyy"));
         }
 
         [Fact]
@@ -230,7 +234,7 @@ namespace HappyKids.Test.UnitTests
 
             Assert.IsType<NoContentResult>(sut);
             Assert.Equal(student.Name,mapUpdateStudentWithDto.Name);
-            Assert.Equal(student.BirthDate,mapUpdateStudentWithDto.BirthDate);
+            Assert.True(student.BirthDate.Equals(mapUpdateStudentWithDto.BirthDate));
 
         }
 
@@ -240,27 +244,40 @@ namespace HappyKids.Test.UnitTests
             var controller = new StudentsController(_unitOfWork);
             var student = new StudentForUpdateDTO();
             student.Name = "UpdateName";
-            controller.ModelState.AddModelError("error", "some error");
 
             var sut = controller.UpdateStudent("kjh1", student);
             Assert.IsType<NotFoundResult>(sut);
 
         }
 
+
         [Fact]
-        public void OtherValueShouldNullWhenUseHttpPut()
+        public void ShouldReturnBadRequestWhenUpdateModelStateError()
         {
             var controller = new StudentsController(_unitOfWork);
             var student = new StudentForUpdateDTO();
             student.Name = "UpdateName";
+            controller.ModelState.AddModelError("error", "some error");
 
-            var sut = controller.UpdateStudent("1",student);
-            var updateSudent = _randomStudent.Single(x => x.Id == "1");
-            var mapUpdateStudentWithDto = Mapper.Map<StudentDTO>(updateSudent);
+            var sut = controller.UpdateStudent("1", student);
+            Assert.IsType<NotFoundResult>(sut);
 
-            Assert.IsType<NoContentResult>(sut);
-            Assert.Null(mapUpdateStudentWithDto.BirthDate);
         }
+
+        //[Fact]
+        //public void OtherValueShouldNullWhenUseHttpPut()
+        //{
+        //    var controller = new StudentsController(_unitOfWork);
+        //    var student = new StudentForUpdateDTO();
+        //    student.Name = "UpdateName";
+
+        //    var sut = controller.UpdateStudent("1",student);
+        //    var updateSudent = _randomStudent.Single(x => x.Id == "1");
+        //    var mapUpdateStudentWithDto = Mapper.Map<StudentDTO>(updateSudent);
+
+        //    Assert.IsType<NoContentResult>(sut);
+        //    Assert.Null(mapUpdateStudentWithDto.BirthDate);
+        //}
 
         [Fact]
         public void ShouldReturnNoContentWhenSuccess()

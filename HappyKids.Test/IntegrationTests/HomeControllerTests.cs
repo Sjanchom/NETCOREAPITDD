@@ -16,21 +16,21 @@ namespace HappyKids.Test.IntegrationTests
             _client = fixture.Client;
         }
 
-        [Fact]
-        public async Task ReturnsInitialListOfBrainstormSessions()
-        {
-            // Arrange - get a session known to exist
+        //[Fact]
+        //public async Task ReturnsInitialListOfBrainstormSessions()
+        //{
+        //    // Arrange - get a session known to exist
         
     
 
-            // Act
-            var response = await _client.GetAsync("/api/values");
+        //    // Act
+        //    var response = await _client.GetAsync("/api/values");
 
-            // Assert
-            response.EnsureSuccessStatusCode();
-            var responseString = await response.Content.ReadAsStringAsync();
-            Assert.True(true);
-        }
+        //    // Assert
+        //    response.EnsureSuccessStatusCode();
+        //    var responseString = await response.Content.ReadAsStringAsync();
+        //    Assert.True(true);
+        //}
 
         //[Fact]
         //public async Task PostAddsNewBrainstormSession()
