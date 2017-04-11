@@ -88,6 +88,12 @@ namespace HappyKids.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateStudent(string id,[FromBody] StudentForUpdateDTO student)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(student);
+            }
+
             var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
 
             if (selectedStudent == null)

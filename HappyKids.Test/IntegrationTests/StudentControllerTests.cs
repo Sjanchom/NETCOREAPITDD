@@ -112,9 +112,10 @@ namespace HappyKids.Test.IntegrationTests
 
             var response = await _client.PutAsJsonAsync("/api/students/5", student);
 
-            Assert.Equal(HttpStatusCode.NoContent,response.StatusCode);
-            Assert.True(_randomStudent.Single(x => x.Id == "5").Name.Equals("Update Name"));
-            Assert.Null(_randomStudent.Single(x => x.Id == "5").BirthDate);
+            Assert.Equal(HttpStatusCode.BadRequest,response.StatusCode);
+            //var returnedSession = await response.Content.ReadAsJsonAsync<List<object>>();
+            //Assert.True(_randomStudent.Single(x => x.Id == "5").Name.Equals("Update Name"));
+            //Assert.Null(_randomStudent.Single(x => x.Id == "5").BirthDate);
         }
 
         [Fact]
@@ -122,7 +123,7 @@ namespace HappyKids.Test.IntegrationTests
         {
             var student = new StudentForUpdateDTO();
             student.Name = "Update Name";
-
+            student.BirthDate = "22/12/2016";
             var response = await _client.PutAsJsonAsync("/api/students/5ssss", student);
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);

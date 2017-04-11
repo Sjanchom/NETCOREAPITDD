@@ -16,10 +16,21 @@ namespace HappyKids.Configurations
                 //    .ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                 //    src.DateOfBirth.GetCurrentAge(src.DateOfDeath)));
                 cfg.CreateMap<Student, StudentDTO>()
-                .ForMember(desc => desc.BirthDate,opt => opt.MapFrom(src => src.BirthDate.Value.ToString("dd/MM/yyy")))
-                .ReverseMap();
-                cfg.CreateMap<Student, StudentForUpdateDTO>().ReverseMap();
-                cfg.CreateMap<Student, StudentForCreateDTO>().ReverseMap();
+                    .ForMember(desc => desc.BirthDate,
+                        opt => opt.MapFrom(src => src.BirthDate.Value.ToString("dd/MM/yyy")))
+                    .ReverseMap()
+                    .ForMember(desc => desc.BirthDate, opt => opt.MapFrom(src => UtilHelper.PareDateTime(src.BirthDate)));
+                cfg.CreateMap<Student, StudentForUpdateDTO>();
+                cfg.CreateMap<Student, StudentForCreateDTO>();
+                cfg.CreateMap<StudentForManipulationDTO, Student>()
+                    .ForMember(desc => desc.BirthDate,
+                    opt => opt.MapFrom(src => UtilHelper.PareDateTime(src.BirthDate)));
+                //cfg.CreateMap<StudentForCreateDTO, Student>()
+                //    .ForMember(desc => desc.BirthDate, 
+                //    opt => opt.MapFrom(src =>UtilHelper.PareDateTime(src.BirthDate) ));
+                //cfg.CreateMap<StudentForUpdateDTO, Student>()
+                //      .ForMember(desc => desc.BirthDate,
+                //        opt => opt.MapFrom(src => UtilHelper.PareDateTime(src.BirthDate)));
                 //cfg.CreateMap<Entities.Book, Models.BookDto>();
 
                 //cfg.CreateMap<Models.AuthorForCreationDto, Entities.Author>();

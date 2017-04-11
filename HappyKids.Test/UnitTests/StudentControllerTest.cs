@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using AutoMapper;
 using HappyKids.Configurations;
@@ -18,7 +17,6 @@ using Xunit;
 
 namespace HappyKids.Test.UnitTests
 {
-    [Category("Student")]
     public class StudentControllerTest
     {
         private readonly List<Student> _randomStudent;
@@ -260,8 +258,9 @@ namespace HappyKids.Test.UnitTests
             controller.ModelState.AddModelError("error", "some error");
 
             var sut = controller.UpdateStudent("1", student);
-            Assert.IsType<NotFoundResult>(sut);
-
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(sut);
+            var result = Assert.IsType<StudentForUpdateDTO>(badRequestResult.Value);
+            Assert.True(string.IsNullOrWhiteSpace(result.BirthDate));
         }
 
         //[Fact]
