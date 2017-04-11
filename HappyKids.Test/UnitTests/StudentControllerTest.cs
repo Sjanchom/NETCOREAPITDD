@@ -35,7 +35,7 @@ namespace HappyKids.Test.UnitTests
         private IUrlHelper SetupUrlHelper()
         {
             var urlHelper = new Mock<IUrlHelper>();
-            urlHelper.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<StudentResourceParameters>()))
+            urlHelper.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<object>()))
                 .Returns($"http:localhost/");
 
             return urlHelper.Object;
@@ -50,7 +50,7 @@ namespace HappyKids.Test.UnitTests
             var resource = new StudentResourceParameters();
             resource.PageSize = 20;
 
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var sut = controller.GetAllPost(resource);
 
             var result = Assert.IsType<OkObjectResult>(sut);
@@ -67,7 +67,7 @@ namespace HappyKids.Test.UnitTests
             resource.PageNumber = 2;
 
 
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var sut = controller.GetAllPost(resource);
 
             var okResult = Assert.IsType<OkObjectResult>(sut);
@@ -85,7 +85,7 @@ namespace HappyKids.Test.UnitTests
             resource.PageNumber = 1;
             resource.Name = "N";
 
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var sut = controller.GetAllPost(resource);
 
             var okResult = Assert.IsType<OkObjectResult>(sut);
@@ -112,7 +112,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldReturnCorrectId()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var sut = controller.GetById("1");
 
             var okResult = Assert.IsType<OkObjectResult>(sut);
@@ -127,7 +127,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldreturnNonFoundWhenInCorrectId()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var result = controller.GetById("1--");
 
             Assert.IsType<NotFoundResult>(result);
@@ -136,7 +136,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldCanPost()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
 
             var student = new StudentForCreateDTO()
             {
@@ -160,7 +160,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void CreateShouldReturnNonFoundWhenReceiveNull()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
 
             var sut = controller.CreateStudent(null);
 
@@ -170,7 +170,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void CreateShouldReturnBadRequestWhenNameIsNullOrEmpty()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             controller.ModelState.AddModelError("error", "some error");
             var emptyStudentDto = new StudentForCreateDTO() {Name = null};
 
@@ -184,7 +184,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldReturnNoContentWhenDeleteSuccess()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
 
             var sut = controller.DeleteStudent("1");
 
@@ -210,7 +210,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldReturnNotFoundWhenStudentNotExist()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
 
             var sut = controller.DeleteStudent("222");
 
@@ -221,7 +221,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldReturnNoContentWhenUpdateSuccess()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var student = new StudentForUpdateDTO();
             student.Name = "UpdateName";
             student.BirthDate = "22/01/2015";
@@ -239,7 +239,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldReturnNotFoundWhenUpdateStudentNotExist()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var student = new StudentForUpdateDTO();
             student.Name = "UpdateName";
 
@@ -252,7 +252,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldReturnBadRequestWhenUpdateModelStateError()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var student = new StudentForUpdateDTO();
             student.Name = "UpdateName";
             controller.ModelState.AddModelError("error", "some error");
@@ -281,7 +281,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldReturnNoContentWhenSuccess()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var patch = new JsonPatchDocument<StudentDTO>();
             patch.Operations.Add(new Operation<StudentDTO>("replace", "/Name", null, "PartialUpdate"));
 
@@ -307,7 +307,7 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldReturnNotFoundWhenIdNotExistInCollection()
         {
-            var controller = new StudentsController(_unitOfWork);
+            var controller = new StudentsController(_unitOfWork, _urlHelper);
             var patch = new JsonPatchDocument<StudentDTO>();
             patch.Operations.Add(new Operation<StudentDTO>("replace", "/Name", null, "PartialUpdate"));
 

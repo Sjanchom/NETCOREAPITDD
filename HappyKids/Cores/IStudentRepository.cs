@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using HappyKids.Helper;
 using HappyKids.Models.DataTranferObjects;
 using HappyKids.Models.Domain;
 
@@ -6,7 +6,7 @@ namespace HappyKids.Cores
 {
     public interface IStudentRepository
     {
-        IEnumerable<Student> GetAllStudents(StudentResourceParameters studentResourceParameters);
+        PagedList<Student> GetAllStudents(StudentResourceParameters studentResourceParameters);
         Student GetStudentById(string id);
         void CreateStudent(Student student);
         void RemoveStudent(string studentId);

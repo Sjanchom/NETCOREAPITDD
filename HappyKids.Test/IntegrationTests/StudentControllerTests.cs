@@ -36,6 +36,8 @@ namespace HappyKids.Test.IntegrationTests
 
             response.EnsureSuccessStatusCode();
             var returnedSession = await response.Content.ReadAsJsonAsync<List<StudentDTO>>();
+            var xPage = ((IList<string>)response.Headers.GetValues("X-Pagination"))[0];
+            //Assert.NotNull(JsonConvert.DeserializeObject<PaginationHeader<Student>>(xPage));
             Assert.Equal(8, returnedSession.Count);
             Assert.True(returnedSession.All(i => i.Name.ToUpperInvariant().Contains("N")));
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using HappyKids.Cores;
+using HappyKids.Helper;
 using HappyKids.Models.DataTranferObjects;
 using HappyKids.Models.Domain;
 using Microsoft.AspNetCore.JsonPatch;
@@ -13,17 +14,41 @@ namespace HappyKids.Controllers
     public class StudentsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUrlHelper _urlHelper;
 
-        public StudentsController(IUnitOfWork unitOfWork)
+        public StudentsController(IUnitOfWork unitOfWork, IUrlHelper urlHelper)
         {
             _unitOfWork = unitOfWork;
+            _urlHelper = urlHelper;
         }
 
-        [HttpGet]
+        [HttpGet(Name="GetBooks")]
         public IActionResult GetAllPost(StudentResourceParameters studentResourceParameters)
         {
             var listOfPost = _unitOfWork.StudentRepository.GetAllStudents(studentResourceParameters);
             var listOfDtos = Mapper.Map<List<StudentDTO>>(listOfPost);
+           
+            var previousPageLink = listOfPost.HasPrevious ?
+                CreateStudentResourceUri(studentResourceParameters,
+                    ResourceUriType.PreviousPage) : null;
+
+            var nextPageLink = listOfPost.HasNext ?
+                CreateStudentResourceUri(studentResourceParameters,
+                    ResourceUriType.NextPage) : null;
+
+            var paginationMetadata = new PaginationHeader
+            {
+                PreviousPageLink = previousPageLink,
+                NextPageLink = nextPageLink,
+                TotalCount = listOfPost.TotalCount,
+                PageSize = listOfPost.PageSize,
+                CurrentPage = listOfPost.CurrentPage,
+                TotalPages = listOfPost.TotalPages
+            };
+            var a = Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata);
+            //Response.Headers.Add("X-Pagination", a);
+            Response.Headers.Add("X-Pagination",
+           "eiei");
             return Ok(listOfDtos);
         }
 
@@ -146,7 +171,39 @@ namespace HappyKids.Controllers
 
             return NoContent();
         }
+
+        private string CreateStudentResourceUri(
+            StudentResourceParameters authorsResourceParameters,
+            ResourceUriType type)
+        {
+            switch (type)
+            {
+                case ResourceUriType.PreviousPage:
+                    return _urlHelper.Link("GetBooks",
+                        new
+                        {
+                            pageNumber = authorsResourceParameters.PageNumber - 1,
+                            pageSize = authorsResourceParameters.PageSize
+                        });
+                case ResourceUriType.NextPage:
+                    return _urlHelper.Link("GetBooks",
+                        new
+                        {
+                            pageNumber = authorsResourceParameters.PageNumber + 1,
+                            pageSize = authorsResourceParameters.PageSize
+                        });
+                case ResourceUriType.Current:
+                default:
+                    return _urlHelper.Link("GetBooks",
+                        new
+                        {
+                            pageNumber = authorsResourceParameters.PageNumber,
+                            pageSize = authorsResourceParameters.PageSize
+                        });
+            }
+        }
+
     }
 
-   
+
 }

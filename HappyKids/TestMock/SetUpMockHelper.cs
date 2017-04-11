@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using HappyKids.Cores;
+using HappyKids.Helper;
 using HappyKids.Models.DataTranferObjects;
 using HappyKids.Models.Domain;
 using Moq;
@@ -28,15 +29,14 @@ namespace HappyKids.TestMock
             var repository = new Mock<IStudentRepository>();
 
             repository.Setup(x => x.GetAllStudents(It.IsAny<StudentResourceParameters>()))
-                .Returns(new Func<StudentResourceParameters, IEnumerable<Student>>(
+                .Returns(new Func<StudentResourceParameters, PagedList<Student>>(
                     studentResourceParameters =>
-                        randomStudent
-                        .Where(x => (string.IsNullOrWhiteSpace(studentResourceParameters.Name)
-                        || x.Name.ToUpperInvariant().Contains(studentResourceParameters.Name.ToUpperInvariant())))
-                        .Skip((studentResourceParameters.PageNumber - 1) *
-                         studentResourceParameters.PageSize)
-                        .Take(studentResourceParameters.PageSize)
-                        .ToList()));
+                    {
+                        return PagedList<Student>.Create(randomStudent
+                            .Where(x => (string.IsNullOrWhiteSpace(studentResourceParameters.Name)
+                                         || x.Name.ToUpperInvariant().Contains(studentResourceParameters.Name.ToUpperInvariant())))
+                            .AsQueryable(), studentResourceParameters.PageNumber, studentResourceParameters.PageSize);
+                    }));
 
             repository.Setup(p => p.GetStudentById(It.IsAny<string>()))
                 .Returns(new Func<string, Student>(
