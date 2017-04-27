@@ -9,6 +9,8 @@ using HappyKids.Models.DataTranferObjects;
 using HappyKids.Models.Domain;
 using HappyKids.Test.Helper;
 using HappyKids.TestMock;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,7 @@ namespace HappyKids.Test.UnitTests
         private readonly List<Student> _randomStudent;
         private readonly IUnitOfWork _unitOfWork;
         private IUrlHelper _urlHelper;
+        private HttpContext httpContext;
 
 
         public StudentControllerTest()
@@ -30,6 +33,7 @@ namespace HappyKids.Test.UnitTests
             _randomStudent = SetUpMockHelper.SetupStudents();
             _unitOfWork = SetUpMockHelper.SetUpUnitOfWork();
             _urlHelper = SetupUrlHelper();
+            httpContext = SetHttpContext().Object;
         }
 
         private IUrlHelper SetupUrlHelper()
@@ -47,16 +51,35 @@ namespace HappyKids.Test.UnitTests
         [Fact]
         public void ShouldNotNull()
         {
+
             var resource = new StudentResourceParameters();
             resource.PageSize = 20;
 
-            var controller = new StudentsController(_unitOfWork, _urlHelper);
+            var controller = new StudentsController(_unitOfWork, _urlHelper)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = httpContext
+                }
+            }; 
+
             var sut = controller.GetAllPost(resource);
 
             var result = Assert.IsType<OkObjectResult>(sut);
             Assert.IsType<List<StudentDTO>>(result.Value);
 
             Assert.NotNull(sut);
+        }
+
+        private static Mock<HttpContext> SetHttpContext()
+        {
+            var headerDictionary = new HeaderDictionary();
+            var response = new Mock<HttpResponse>();
+            response.SetupGet(r => r.Headers).Returns(headerDictionary);
+
+            var httpContext = new Mock<HttpContext>();
+            httpContext.SetupGet(a => a.Response).Returns(response.Object);
+            return httpContext;
         }
 
         [Fact]
@@ -66,8 +89,13 @@ namespace HappyKids.Test.UnitTests
             resource.PageSize = 15;
             resource.PageNumber = 2;
 
-
-            var controller = new StudentsController(_unitOfWork, _urlHelper);
+            var controller = new StudentsController(_unitOfWork, _urlHelper)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = httpContext
+                }
+            };
             var sut = controller.GetAllPost(resource);
 
             var okResult = Assert.IsType<OkObjectResult>(sut);
@@ -85,7 +113,14 @@ namespace HappyKids.Test.UnitTests
             resource.PageNumber = 1;
             resource.Name = "N";
 
-            var controller = new StudentsController(_unitOfWork, _urlHelper);
+
+            var controller = new StudentsController(_unitOfWork, _urlHelper)
+            {
+                ControllerContext = new ControllerContext()
+                {
+                    HttpContext = httpContext
+                }
+            };
             var sut = controller.GetAllPost(resource);
 
             var okResult = Assert.IsType<OkObjectResult>(sut);

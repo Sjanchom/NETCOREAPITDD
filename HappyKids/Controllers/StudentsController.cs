@@ -22,19 +22,21 @@ namespace HappyKids.Controllers
             _urlHelper = urlHelper;
         }
 
-        [HttpGet(Name="GetBooks")]
+        [HttpGet(Name = "GetBooks")]
         public IActionResult GetAllPost(StudentResourceParameters studentResourceParameters)
         {
             var listOfPost = _unitOfWork.StudentRepository.GetAllStudents(studentResourceParameters);
             var listOfDtos = Mapper.Map<List<StudentDTO>>(listOfPost);
-           
-            var previousPageLink = listOfPost.HasPrevious ?
-                CreateStudentResourceUri(studentResourceParameters,
-                    ResourceUriType.PreviousPage) : null;
 
-            var nextPageLink = listOfPost.HasNext ?
-                CreateStudentResourceUri(studentResourceParameters,
-                    ResourceUriType.NextPage) : null;
+            var previousPageLink = listOfPost.HasPrevious
+                ? CreateStudentResourceUri(studentResourceParameters,
+                    ResourceUriType.PreviousPage)
+                : null;
+
+            var nextPageLink = listOfPost.HasNext
+                ? CreateStudentResourceUri(studentResourceParameters,
+                    ResourceUriType.NextPage)
+                : null;
 
             var paginationMetadata = new PaginationHeader
             {
@@ -45,10 +47,8 @@ namespace HappyKids.Controllers
                 CurrentPage = listOfPost.CurrentPage,
                 TotalPages = listOfPost.TotalPages
             };
-            var a = Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata);
-            //Response.Headers.Add("X-Pagination", a);
             Response.Headers.Add("X-Pagination",
-           "eiei");
+                Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata));
             return Ok(listOfDtos);
         }
 
@@ -69,9 +69,8 @@ namespace HappyKids.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateStudent([FromBody]StudentForCreateDTO student)
+        public IActionResult CreateStudent([FromBody] StudentForCreateDTO student)
         {
-
             if (student == null)
             {
                 return BadRequest();
@@ -111,9 +110,8 @@ namespace HappyKids.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateStudent(string id,[FromBody] StudentForUpdateDTO student)
+        public IActionResult UpdateStudent(string id, [FromBody] StudentForUpdateDTO student)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(student);
@@ -141,9 +139,14 @@ namespace HappyKids.Controllers
             return NoContent();
         }
 
-        public IActionResult PartialUpdateStudent(string id,[FromBody] JsonPatchDocument<StudentDTO> patchDocStudentDto)
+        [HttpPatch("{id}")]
+        public IActionResult PartialUpdateStudent(string id, [FromBody] JsonPatchDocument<StudentDTO> patchDocStudentDto)
         {
 
+            if (patchDocStudentDto == null)
+            {
+                return NotFound();
+            }
             var selectedStudent = _unitOfWork.StudentRepository.GetStudentById(id);
             if (selectedStudent == null)
             {
@@ -151,8 +154,8 @@ namespace HappyKids.Controllers
             }
             var studentToPatch = Mapper.Map<StudentDTO>(selectedStudent);
 
-            patchDocStudentDto.ApplyTo(studentToPatch,ModelState);
-       
+            patchDocStudentDto.ApplyTo(studentToPatch, ModelState);
+
             if (!ModelState.IsValid)
             {
                 return NotFound();
@@ -202,8 +205,5 @@ namespace HappyKids.Controllers
                         });
             }
         }
-
     }
-
-
 }

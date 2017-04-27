@@ -11,6 +11,7 @@ using HappyKids.Models.DataTranferObjects;
 using HappyKids.Models.Domain;
 using HappyKids.Test.Helper;
 using HappyKids.TestMock;
+using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -37,7 +38,11 @@ namespace HappyKids.Test.IntegrationTests
             response.EnsureSuccessStatusCode();
             var returnedSession = await response.Content.ReadAsJsonAsync<List<StudentDTO>>();
             var xPage = ((IList<string>)response.Headers.GetValues("X-Pagination"))[0];
-            //Assert.NotNull(JsonConvert.DeserializeObject<PaginationHeader<Student>>(xPage));
+            var page = JsonConvert.DeserializeObject<PaginationHeader>(xPage);
+            Assert.NotNull(page);
+            Assert.IsType<PaginationHeader>(page);
+            Assert.Equal(8,page.PageSize);
+            Assert.Equal(1,page.CurrentPage);
             Assert.Equal(8, returnedSession.Count);
             Assert.True(returnedSession.All(i => i.Name.ToUpperInvariant().Contains("N")));
         }
@@ -130,6 +135,30 @@ namespace HappyKids.Test.IntegrationTests
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
           
+        }
+
+        [Fact]
+        public async Task PartialUpdateShouldReturnNoContentWhenSuccess()
+        {
+            JsonPatchDocument<StudentDTO> patchDoc = new JsonPatchDocument<StudentDTO>();
+            patchDoc.Replace(e => e.Name, "IntegratePartialUpdate");
+            var response = await _client.PatchAsJsonAsync("/api/students/5", patchDoc);
+
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+            Assert.True(_randomStudent.Single(x => x.Id == "5").Name.Equals("IntegratePartialUpdate"));
+            Assert.NotNull(_randomStudent.Single(x => x.Id == "5").BirthDate);
+        }
+
+        [Fact]
+        public async Task PartialUpdateShouldReturnNotFoundWhenIdNotExist()
+        {
+            var student = new StudentForUpdateDTO();
+            student.Name = "Update Name";
+            student.BirthDate = "22/12/2016";
+            var response = await _client.PatchAsJsonAsync("/api/students/5ssss", student);
+
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+
         }
     }
 
